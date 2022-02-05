@@ -33,7 +33,7 @@ const PULLI = "\u0BCD";
 const TAMIL_DIACRITICS = [PULLI].concat([AA, I, II, U, UU, E, EE, AI, O, OO, AU].map(toDiacritic));
 const VISARGA = "\u0B83";
 
-const START_DATE = new Date(2022, 02, 04);
+const START_DATE = new Date("2022-02-04 00:00:00");
 
 let vowels = document.querySelectorAll(".vowel");
 let consonants = document.querySelectorAll(".consonant");
