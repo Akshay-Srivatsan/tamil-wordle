@@ -439,7 +439,7 @@ function writeToLocalStorage() {
     let key = VERSION + ":" + getDateString();
     let value = {
         guesses,
-        current: processedGuess(),
+        current: processedGuess().join(""),
     };
     localStorage[key] = JSON.stringify(value);
 }
@@ -461,6 +461,9 @@ function replayGuesses(guesses, current) {
     resetting = true;
     speed_scale = 0.1;
     if (guesses.length === 0) {
+        if (typeof current === "object") {
+            current = current.join("");
+        }
         guess = parseWord(current);
         resetting = false;
         renderGuess();
