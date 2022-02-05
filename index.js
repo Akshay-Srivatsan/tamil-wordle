@@ -2,6 +2,7 @@ const MAX_LENGTH = 4;
 const MAX_GUESSES = 6;
 const TRANSITION_TIME = 500;
 const RESET_TIME = 100;
+const VERSION = "1";
 
 let speed_scale = 1;
 
@@ -430,7 +431,7 @@ function init() {
 }
 
 function writeToLocalStorage() {
-    let key = getDateString();
+    let key = VERSION + ":" + getDateString();
     let value = {
         guesses,
         current: processedGuess(),
@@ -440,7 +441,7 @@ function writeToLocalStorage() {
 
 function replayFromLocalStorage() {
     let storage = window.localStorage;
-    let key = getDateString();
+    let key = VERSION + ":" + getDateString();
     let value = localStorage[key];
     if (!value) return;
     if (!wordlist) {
