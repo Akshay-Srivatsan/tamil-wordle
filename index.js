@@ -9,7 +9,12 @@ let speed_scale = 1;
 const DATE = new Date();
 
 function getDateString() {
-    return DATE.toISOString().substr(0, 10);
+    let year = DATE.getFullYear().toString();
+    let month = (DATE.getMonth() + 1).toString();
+    if (month.length === 1) month = "0" + month;
+    let day = DATE.getDate().toString();
+    if (day.length === 1) day = "0" + day;
+    return year + "-" + month + "-" + day;
 }
 
 function toDiacritic(x) {
