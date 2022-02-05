@@ -39,7 +39,7 @@ const PULLI = "\u0BCD";
 const TAMIL_DIACRITICS = [PULLI].concat([AA, I, II, U, UU, E, EE, AI, O, OO, AU].map(toDiacritic));
 const VISARGA = "\u0B83";
 
-const START_DATE = new Date("2022-02-04 00:00:00");
+const START_DATE = new Date(2022, 01, 04, 00, 00, 00); // 2022-02-04
 
 let vowels = document.querySelectorAll(".vowel");
 let consonants = document.querySelectorAll(".consonant");
@@ -58,7 +58,7 @@ function createWordList(list) {
 }
 
 function getWordForDay(date) {
-    let difference = Math.abs(date - START_DATE) / (1000 * 60 * 60 * 24);
+    let difference = Math.abs(date.getTime() - START_DATE.getTime()) / (1000 * 60 * 60 * 24);
     let days = Math.floor(difference);
     return wordlist[days % wordlist.length];
 }
@@ -297,7 +297,7 @@ function submitGuess() {
             correctConsonant = g.charAt(0) === t.charAt(0);
             correctVowel = g.charAt(1) === t.charAt(1);
         }
-        correct &&= correctConsonant && correctVowel;
+        correct = correct && (correctConsonant && correctVowel);
 
         let consonantState = correctConsonant * 2 + consonantOccursElsewhere;
         let vowelState = correctVowel * 2 + vowelOccursElsewhere;
