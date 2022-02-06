@@ -23,6 +23,10 @@
         font-family: 'Hind', 'Hind Madurai', sans-serif;
       }
 
+      html.random-mode {
+        background: #FFF3E0;
+      }
+
       #container {
         display: flex;
         flex-direction: row;
@@ -40,7 +44,6 @@
       .guess {
         display: flex;
         flex-direction: row;
-        background: white;
       }
 
       .letter {
@@ -164,6 +167,14 @@
         text-align: center;
       }
 
+      .hidden {
+        display: none;
+      }
+
+      .show-in-random-mode {
+        font-weight: bold;
+      }
+
     </style>
   </head>
   <body>
@@ -171,14 +182,21 @@
     <p>Rules are similar to English Wordle, but the border color of each box 
     represents the vowel (உயிரெழுத்து) and the center color represents the consonant 
     (மெய்யெழுத்து).</p>
+    <p class="show-in-random-mode hidden">
+    You are playing in random mode; every time you visit this page, you'll get 
+    a new word.  If you want to play the daily challenge, try <a 
+    href="?">Wordle Mode</a>.
+    </p>
     <div id="container">
       <table id="guesses">
         <!-- populated by JS -->
       </table>
     </div>
-    <div id="message"></div>
+    <div id="message">
+      <!-- populated from JS -->
+    </div>
     <div id="copycontainer">
-      <button id="copyresults">Copy results to Clipboard</button>
+      <button id="copyresults">Copy results to clipboard</button>
     </div>
     <hr/>
     <div id="keyboard">
@@ -247,15 +265,18 @@
         </tr>
       </table>
     </div>
+    <hr class="show-in-wordle-mode hidden"/>
+    <p class="show-in-wordle-mode hidden">You're playing in daily challenge mode; if 
+    you want to play multiple times on the same day, try <a href="?mode=random">Random Mode</a>.</p>
     <hr/>
     <p>
     Inspired by <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a> 
     and <a href="https://kach.github.io/shabdle/">Shabdle</a>.  Words are 
-    pulled from the <a 
+      pulled from the <a 
            href="https://ftp.gnu.org/gnu/aspell/dict/0index.html">GNU 
-           Aspell</a> word list.  <a href="https://github.com/Akshay-Srivatsan/tamil-wordle">Source 
-         code</a> is available under the GPLv2 
-         license.
+           Aspell</a> word list.  <a 
+           href="https://github.com/Akshay-Srivatsan/tamil-wordle">Source 
+           code</a> is available under the GPLv2 license.
     </p>
     <script src="index.js"></script>
   </body>

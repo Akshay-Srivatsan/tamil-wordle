@@ -1,3 +1,27 @@
+const PARAMS = new URLSearchParams(window.location.search);
+const WORDLE = "wordle";
+const RANDOM = "random";
+const MODE = (() => {
+    let mode = PARAMS.get("mode");
+    if (mode === "random") return RANDOM;
+    return WORDLE;
+})();
+
+if (MODE === RANDOM) {
+    let targets = document.querySelectorAll(".show-in-random-mode");
+    for (let target of targets) {
+        target.classList.remove("hidden");
+    }
+    document.documentElement.classList.add("random-mode");
+    console.log("Random mode enabled");
+} else {
+    let targets = document.querySelectorAll(".show-in-wordle-mode");
+    for (let target of targets) {
+        target.classList.remove("hidden");
+    }
+    console.log("Random mode enabled");
+}
+
 const MAX_LENGTH = 4;
 const MAX_GUESSES = 6;
 const TRANSITION_TIME = 500;
@@ -7,6 +31,7 @@ const VERSION = "1";
 let speed_scale = 1;
 
 const DATE = new Date();
+let target = null;
 
 function getDateString() {
     let year = DATE.getFullYear().toString();
@@ -63,7 +88,17 @@ function getWordForDay(date) {
     return wordlist[days % wordlist.length];
 }
 
+function getRandomWord() {
+    let index = Math.floor(Math.random() * wordlist.length);
+    let word = wordlist[index];
+    console.log("The random word is '%s'.", word);
+    target = word;
+    return word;
+}
+
 function getTarget() {
+    if (target) return target;
+    if (MODE === RANDOM) return getRandomWord();
     return getWordForDay(DATE);
 }
 
@@ -317,9 +352,14 @@ function submitGuess() {
         if (won) {
             document.getElementById("message").innerHTML = "You won!";
             document.getElementById("message").classList.add('won');
-            document.getElementById("copyresults").classList.add('won');
+            if (MODE !== RANDOM) {
+                document.getElementById("copyresults").classList.add('won');
+            }
         } else if (finished) {
             document.getElementById("message").innerHTML = "Sorry, the word was '" + getTarget() + "'; better luck tomorrow!";
+            if (MODE === RANDOM) {
+                document.getElementById("message").innerHTML = "Sorry, the word was '" + getTarget() + "'.";
+            }
             document.getElementById("message").classList.add('lost');
         }
         updateButtons();
@@ -378,7 +418,6 @@ for (let consonant of consonants) {
 }
 
 function copyResults() {
-
     let string = "சொற்கள் " + getDateString() + "\n";
 
     for (let i = 0; i < guesses.length; i++) {
@@ -436,6 +475,9 @@ function init() {
 }
 
 function writeToLocalStorage() {
+    if (MODE === RANDOM) {
+        return;
+    }
     let key = VERSION + ":" + getDateString();
     let value = {
         guesses,
@@ -445,6 +487,9 @@ function writeToLocalStorage() {
 }
 
 function replayFromLocalStorage() {
+    if (MODE === RANDOM) {
+        return;
+    }
     let storage = window.localStorage;
     let key = VERSION + ":" + getDateString();
     let value = localStorage[key];
