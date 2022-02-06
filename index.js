@@ -201,6 +201,7 @@ function updateButtons() {
 
 function guessVowel(e) {
     let vowel = e.target.innerHTML;
+    if (finished) return;
     if (canGuessVowel) {
         if (!currentLetter) currentLetter = "";
         currentLetter += vowel;
@@ -211,6 +212,7 @@ function guessVowel(e) {
 
 function guessConsonant(e) {
     let consonant = e.target.innerHTML;
+    if (finished) return;
     if (canGuessConsonant) {
         if (currentLetter) guess.push(currentLetter);
         currentLetter = consonant;
