@@ -13,14 +13,13 @@ if (MODE === RANDOM) {
         target.classList.remove("hidden");
     }
     document.documentElement.classList.add("random-mode");
-    console.log("Random mode enabled");
 } else {
     let targets = document.querySelectorAll(".show-in-wordle-mode");
     for (let target of targets) {
         target.classList.remove("hidden");
     }
-    console.log("Random mode enabled");
 }
+console.log("mode = %s", MODE);
 
 const MAX_LENGTH = 4;
 const MAX_GUESSES = 6;
@@ -190,6 +189,12 @@ function updateButtons() {
         document.getElementById("enter").classList.add("disabled");
     } else {
         document.getElementById("enter").classList.remove("disabled");
+    }
+
+    if (!finished) {
+        if (fullGuess().length !== 0) {
+            document.getElementById("message").innerHTML = "Current guess: '" + processedGuess().join("") + "'.";
+        }
     }
 }
 
@@ -466,7 +471,7 @@ function init() {
         let guess = document.createElement("tr");
         guess.classList.add("guess");
         for (let j = 0; j < MAX_LENGTH; j++) {
-            let letter = document.createElement("td");
+            let letter = document.createElement("div");
             letter.classList.add("letter");
             guess.appendChild(letter);
         };

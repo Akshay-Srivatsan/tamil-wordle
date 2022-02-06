@@ -99,17 +99,21 @@
       #vowels, #consonants, #controls {
         display: flex;
         flex-direction: column;
-        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
       }
 
-      #vowels tr, #consonants tr, #controls tr {
+      #vowels div, #consonants div, #controls div {
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        pointer-events: auto;
       }
 
       .vowel, .consonant, .control {
+        background: white;
         border: 1px solid darkgrey;
         font-size: 12pt;
         margin: 3pt;
@@ -121,6 +125,11 @@
         transition: 0.1s;
         box-sizing: border-box;
         user-select: none;
+        cursor: pointer;
+      }
+
+      .vowel:active, .consonant:active, .control:active {
+        background: #40C4FF;
       }
 
       .vowel.moved, .consonant.moved {
@@ -188,9 +197,9 @@
     href="?">Wordle Mode</a>.
     </p>
     <div id="container">
-      <table id="guesses">
+      <div id="guesses">
         <!-- populated by JS -->
-      </table>
+      </div>
     </div>
     <div id="message">
       <!-- populated from JS -->
@@ -200,70 +209,70 @@
     </div>
     <hr/>
     <div id="keyboard">
-      <table id="vowels">
-        <tr>
-          <td id="a" class="vowel">அ</td>
-          <td id="aa" class="vowel">ஆ</td>
-          <td id="i" class="vowel">இ</td>
-          <td id="ii" class="vowel">ஈ</td>
-          <td id="u" class="vowel">உ</td>
-          <td id="uu" class="vowel">ஊ</td>
-        </tr>
-        <tr>
-          <td id="e" class="vowel">எ</td>
-          <td id="ee" class="vowel">ஏ</td>
-          <td id="ai" class="vowel">ஐ</td>
-          <td id="o" class="vowel">ஒ</td>
-          <td id="oo" class="vowel">ஓ</td>
-          <td id="au" class="vowel">ஊ</td>
-        </tr>
-      </table>
+      <div id="vowels">
+        <div>
+          <div id="a" class="vowel">அ</div>
+          <div id="aa" class="vowel">ஆ</div>
+          <div id="i" class="vowel">இ</div>
+          <div id="ii" class="vowel">ஈ</div>
+          <div id="u" class="vowel">உ</div>
+          <div id="uu" class="vowel">ஊ</div>
+        </div>
+        <div>
+          <div id="e" class="vowel">எ</div>
+          <div id="ee" class="vowel">ஏ</div>
+          <div id="ai" class="vowel">ஐ</div>
+          <div id="o" class="vowel">ஒ</div>
+          <div id="oo" class="vowel">ஓ</div>
+          <div id="au" class="vowel">ஊ</div>
+        </div>
+      </div>
       <hr/>
-      <table id="consonants">
-        <tr>
-          <td id="k" class="consonant">க</td>
-          <td id="c" class="consonant">ச</td>
-          <td id="t" class="consonant">ட</td>
-          <td id="th" class="consonant">த</td>
-          <td id="p" class="consonant">ப</td>
-          <td id="rr" class="consonant">ற</td>
-        </tr>
-        <tr>
-          <td id="ng" class="consonant">ங</td>
-          <td id="ny" class="consonant">ஞ</td>
-          <td id="nd" class="consonant">ண</td>
-          <td id="n" class="consonant">ந</td>
-          <td id="m" class="consonant">ம</td>
-          <td id="nn" class="consonant">ன</td>
-        </tr>
-        <tr>
-          <td id="y" class="consonant">ய</td>
-          <td id="r" class="consonant">ர</td>
-          <td id="l" class="consonant">ல</td>
-          <td id="v" class="consonant">வ</td>
-          <td id="zh" class="consonant">ழ</td>
-          <td id="ll" class="consonant">ள</td>
-        </tr>
-        <tr>
-          <td id="shh" class="consonant">ஶ</td>
-          <td id="sh" class="consonant">ஷ</td>
-          <td id="s" class="consonant">ஸ</td>
-          <td id="h" class="consonant">ஹ</td>
-          <td id="j" class="consonant">ஜ</td>
-          <td id="visarga" class="consonant">ஃ</td>
-        </tr>
-      </table>
+      <div id="consonants">
+        <div>
+          <div id="k" class="consonant">க</div>
+          <div id="c" class="consonant">ச</div>
+          <div id="t" class="consonant">ட</div>
+          <div id="th" class="consonant">த</div>
+          <div id="p" class="consonant">ப</div>
+          <div id="rr" class="consonant">ற</div>
+        </div>
+        <div>
+          <div id="ng" class="consonant">ங</div>
+          <div id="ny" class="consonant">ஞ</div>
+          <div id="nd" class="consonant">ண</div>
+          <div id="n" class="consonant">ந</div>
+          <div id="m" class="consonant">ம</div>
+          <div id="nn" class="consonant">ன</div>
+        </div>
+        <div>
+          <div id="y" class="consonant">ய</div>
+          <div id="r" class="consonant">ர</div>
+          <div id="l" class="consonant">ல</div>
+          <div id="v" class="consonant">வ</div>
+          <div id="zh" class="consonant">ழ</div>
+          <div id="ll" class="consonant">ள</div>
+        </div>
+        <div>
+          <div id="shh" class="consonant">ஶ</div>
+          <div id="sh" class="consonant">ஷ</div>
+          <div id="s" class="consonant">ஸ</div>
+          <div id="h" class="consonant">ஹ</div>
+          <div id="j" class="consonant">ஜ</div>
+          <div id="visarga" class="consonant">ஃ</div>
+        </div>
+      </div>
       <hr/>
-      <table id="controls">
-        <tr>
-          <td id="reset" class="control"><i 
-                         class="material-icons">loop</i></td>
-          <td id="backspace" class="control"><i 
-                             class="material-icons">backspace</i></td>
-          <td id="enter" class="control"><i 
-                         class="material-icons">keyboard_return</i></td>
-        </tr>
-      </table>
+      <div id="controls">
+        <div>
+          <div id="reset" class="control"><i 
+                         class="material-icons">loop</i></div>
+          <div id="backspace" class="control"><i 
+                             class="material-icons">backspace</i></div>
+          <div id="enter" class="control"><i 
+                         class="material-icons">keyboard_return</i></div>
+        </div>
+      </div>
     </div>
     <hr class="show-in-wordle-mode hidden"/>
     <p class="show-in-wordle-mode hidden">You're playing in daily challenge mode; if 
