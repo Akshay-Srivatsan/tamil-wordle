@@ -73,6 +73,7 @@ let resetting = false;
 let submitting = false;
 let finished = false;
 let won = false;
+let replaying = false;
 
 let wordlist = null;
 
@@ -283,6 +284,7 @@ function submitGuess() {
     }
     if (submitting || finished) return;
     document.getElementById("message").innerHTML = "";
+    if (fullGuess().length !== MAX_LENGTH) return;
 
     let normalized = processedGuess().join("").normalize();
     if (wordlist.indexOf(normalized) === -1) {
@@ -483,6 +485,7 @@ function writeToLocalStorage() {
     if (MODE === RANDOM) {
         return;
     }
+    if (replaying) return;
     let key = VERSION + ":" + getDateString();
     let value = {
         guesses,
@@ -509,6 +512,7 @@ function replayFromLocalStorage() {
 
 function replayGuesses(guesses, current) {
     resetting = true;
+    replaying = true;
     speed_scale = 0.1;
     if (guesses.length === 0) {
         if (typeof current === "object") {
@@ -519,6 +523,7 @@ function replayGuesses(guesses, current) {
         renderGuess();
         updatePossibilities();
         speed_scale = 1;
+        replaying = false;
         return;
     }
     guess = parseWord(guesses[0]);
