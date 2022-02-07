@@ -427,7 +427,7 @@ for (let consonant of consonants) {
 function copyResults() {
     let string = "சொற்கள் " + getDateString() + "\n";
     if (MODE === RANDOM) {
-        string =  "சொற்கள் (Random Mode, guessing '" + getTarget() + "')\n";
+        string =  "சொற்கள் (Random Mode)\n";
     }
 
     for (let i = 0; i < guesses.length; i++) {
@@ -454,6 +454,9 @@ function copyResults() {
                 string += "⬜";
             }
         };
+        if (MODE === RANDOM) {
+            string += " (" + guesses[i] + ")";
+        }
         if (i !== guesses.length - 1) {
             string += "\n";
         }
