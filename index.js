@@ -361,9 +361,7 @@ function submitGuess() {
         if (won) {
             document.getElementById("message").innerHTML = "You won!";
             document.getElementById("message").classList.add('won');
-            if (MODE !== RANDOM) {
-                document.getElementById("copyresults").classList.add('won');
-            }
+            document.getElementById("copyresults").classList.add('won');
         } else if (finished) {
             document.getElementById("message").innerHTML = "Sorry, the word was '" + getTarget() + "'; better luck tomorrow!";
             if (MODE === RANDOM) {
@@ -428,6 +426,9 @@ for (let consonant of consonants) {
 
 function copyResults() {
     let string = "சொற்கள் " + getDateString() + "\n";
+    if (MODE === RANDOM) {
+        string =  "சொற்கள் (Random Mode, guessing '" + getTarget() + "')\n";
+    }
 
     for (let i = 0; i < guesses.length; i++) {
         let guessDiv = document.querySelectorAll(".guess")[i];
