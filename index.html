@@ -60,12 +60,13 @@
         border-radius: 5px;
       }
 
-      .letter.correctVowel {
-        border: 5px solid #64DD17;
+      .letter.wrongVowel {
+        border: 5px solid #424242;
       }
 
-      .letter.correctConsonant {
-        background: #64DD17;
+      .letter.wrongConsonant {
+        background: #424242;
+        color: white;
       }
 
       .letter.movedVowel {
@@ -76,14 +77,14 @@
         background: #FFD600;
       }
 
-      .letter.wrongVowel {
-        border: 5px solid #424242;
+      .letter.correctVowel {
+        border: 5px solid #64DD17;
       }
 
-      .letter.wrongConsonant {
-        background: #424242;
-        color: white;
+      .letter.correctConsonant {
+        background: #64DD17;
       }
+
 
       #keyboard {
         display: flex;
@@ -132,6 +133,12 @@
         background: #40C4FF;
       }
 
+      .vowel.wrong, .consonant.wrong {
+        border: 2px solid #424242;
+        background-color: #424242;
+        color: white;
+      }
+
       .vowel.moved, .consonant.moved {
         border: 2px solid #FFD600;
         background-color: #FFD600;
@@ -140,12 +147,6 @@
       .vowel.correct, .consonant.correct {
         border: 2px solid #64DD17;
         background-color: #64DD17;
-      }
-
-      .vowel.wrong, .consonant.wrong {
-        border: 2px solid #424242;
-        background-color: #424242;
-        color: white;
       }
 
       .vowel.disabled, .consonant.disabled, .control.disabled {

@@ -348,7 +348,6 @@ function submitGuess() {
         correctnesses.push([consonantCorrect, vowelCorrect]);
     };
 
-    console.log(frequencies);
     for (let i = 0; i < guessedWord.length; i++) {
         let [gc, gv] = guessedWord[i];
         let consonantMoved = false;
@@ -368,7 +367,6 @@ function submitGuess() {
     };
 
     let correct = !correctnesses.map(([x, y]) => x || y).includes(false);
-    console.log(correctnesses, movednesses);
 
     for (let i = 0; i < MAX_LENGTH; i++) {
         window.setTimeout(function() {
