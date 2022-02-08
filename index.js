@@ -278,6 +278,35 @@ function reset() {
     setTimeout(reset, RESET_TIME * speed_scale);
 }
 
+function getFrequencies(word) {
+    let frequencies = {};
+
+    for (let i = 0; i < MAX_LENGTH; i++) {
+        let [x, y] = word[i];
+        frequencies[x] = (frequencies[x] || 0) + 1;
+        frequencies[y] = (frequencies[y] || 0) + 1;
+    }
+    return frequencies;
+}
+
+function compareCorrectness(t, g) {
+    return t.map((x, i) => x == g[i])
+}
+
+function expandWord(word) {
+    return word.map(x => {
+        if (x.length === 1) {
+            if (TAMIL_VOWELS.includes(x)) {
+                return [x, x];
+            } else {
+                return [x, PULLI];
+            }
+        } else {
+            return [x.charAt(0), x.charAt(1)];
+        }
+    });
+}
+
 function submitGuess() {
     if (!wordlist) {
         document.getElementById("message").innerHTML = "Please wait…";
@@ -289,73 +318,87 @@ function submitGuess() {
     if (fullGuess().length !== MAX_LENGTH) return;
 
     let normalized = processedGuess().join("").normalize();
-    if (wordlist.indexOf(normalized) === -1) {
+    if (!wordlist.includes(normalized)) {
         document.getElementById("message").innerHTML = "Word not found!";
         return;
     }
 
-    let targetWord = parseWord(getTarget());
-    let guessedWord = fullGuess();
+    let targetWord = expandWord(parseWord(getTarget()));
+    let guessedWord = expandWord(fullGuess());
     if (guessedWord.length !== MAX_LENGTH) return;
     let guessNum = guesses.length;
     let guessDiv = document.querySelectorAll(".guess")[guessNum];
     let letters = guessDiv.querySelectorAll(".letter");
     submitting = true;
 
-    let correct = true;
+    let frequencies = getFrequencies(targetWord);
+
+    let correctnesses = [];
+    let movednesses = [];
 
     for (let i = 0; i < guessedWord.length; i++) {
         let t = targetWord[i];
         let g = guessedWord[i];
-        let correctVowel = false;
-        let correctConsonant = false
-        let vowelOccursElsewhere = false;
-        let consonantOccursElsewhere = false;
-        if (g.length === 1) {
-            vowelOccursElsewhere = targetWord.some(x => x.indexOf(g) !== -1);
-            consonantOccursElsewhere = targetWord.some(x => x.indexOf(g) !== -1);
-        } else {
-            vowelOccursElsewhere = targetWord.some(x => x.indexOf(g.charAt(1)) !== -1);
-            consonantOccursElsewhere = targetWord.some(x => x.indexOf(g.charAt(0)) !== -1);
-        }
 
-        if (t.length === 1 && g.length === 1) {
-            correctVowel = correctConsonant = (g === t);
-        } else if (t.length === 1 && g.length === 2) {
-            if (TAMIL_VOWELS.indexOf(t) === -1) {
-                correctVowel = false;
-                correctConsonant = (t === g.charAt(0));
-            } else {
-                correctConsonant = false;
-                correctVowel = (t === g.charAt(1));
-            }
-        } else if (g.length === 1 && t.length === 2) {
-            if (TAMIL_VOWELS.indexOf(g) === -1) {
-                correctVowel = false;
-                correctConsonant = (g === t.charAt(0));
-            } else {
-                correctConsonant = false;
-                correctVowel = (g === t.charAt(1));
-            }
-        } else {
-            correctConsonant = g.charAt(0) === t.charAt(0);
-            correctVowel = g.charAt(1) === t.charAt(1);
-        }
-        correct = correct && (correctConsonant && correctVowel);
+        let [consonantCorrect, vowelCorrect] = compareCorrectness(t, g);
 
-        let consonantState = correctConsonant * 2 + consonantOccursElsewhere;
-        let vowelState = correctVowel * 2 + vowelOccursElsewhere;
+        if (frequencies[g[0]]) frequencies[g[0]] -= consonantCorrect;
+        if (frequencies[g[1]]) frequencies[g[1]] -= vowelCorrect;
 
-        window.setTimeout(function() {
-            setGuessState(letters[i], consonantState, vowelState);
-            if (g.length === 1) {
-                setKeyState(g.charAt(0), consonantState | vowelState);
-            } else {
-                setKeyState(g.charAt(0), consonantState);
-                setKeyState(g.charAt(1), vowelState);
-            }
-        }, TRANSITION_TIME * i * speed_scale)
+        correctnesses.push([consonantCorrect, vowelCorrect]);
     };
+
+    console.log(frequencies);
+    for (let i = 0; i < guessedWord.length; i++) {
+        let [gc, gv] = guessedWord[i];
+        let consonantMoved = false;
+        let vowelMoved = false;
+
+        if (frequencies[gc] > 0) {
+            frequencies[gc]--;
+            consonantMoved = true;
+        }
+
+        if (frequencies[gv] > 0) {
+            frequencies[gv]--;
+            vowelMoved = true;
+        }
+
+        movednesses.push([consonantMoved, vowelMoved]);
+    };
+
+    let correct = !correctnesses.map(([x, y]) => x || y).includes(false);
+    console.log(correctnesses, movednesses);
+
+    for (let i = 0; i < MAX_LENGTH; i++) {
+        window.setTimeout(function() {
+            let [c, v] = guessedWord[i];
+            let [consonantCorrect, vowelCorrect] = correctnesses[i];
+            let [consonantMoved, vowelMoved] = movednesses[i];
+            let cell = letters[i];
+            if (consonantCorrect) {
+                cell.classList.add('correctConsonant');
+                getKey(c)?.classList.add('correct');
+            } else if (consonantMoved) {
+                cell.classList.add('movedConsonant');
+                getKey(c)?.classList.add('moved');
+            } else {
+                cell.classList.add('wrongConsonant');
+                getKey(c)?.classList.add('wrong');
+            }
+            if (vowelCorrect) {
+                cell.classList.add('correctVowel');
+                getKey(v)?.classList.add('correct');
+            } else if (vowelMoved) {
+                cell.classList.add('movedVowel');
+                getKey(v)?.classList.add('moved');
+            } else {
+                cell.classList.add('wrongVowel');
+                getKey(v)?.classList.add('wrong');
+            }
+        }, TRANSITION_TIME * i * speed_scale);
+    }
+
     window.setTimeout(function() {
         submitting = false;
         if (won) {
@@ -383,38 +426,17 @@ function submitGuess() {
     updatePossibilities();
 }
 
-function setKeyState(letter, state) {
+function getKey(letter) {
     let keySets = ["vowel", "consonant"].map(x => document.getElementsByClassName(x));
     for (let keys of keySets) {
         for (let i = 0; i < keys.length; i++) {
             if (keys[i].innerHTML === letter) {
-                if (state & 0b10)
-                    keys[i].classList.add("correct");
-                if (state & 0b01)
-                    keys[i].classList.add("moved");
-                if (!state)
-                    keys[i].classList.add("wrong");
+                return keys[i];
             }
         }
     }
 }
 
-function setGuessState(cell, c, v) {
-    if (c & 0b10) {
-        cell.classList.add('correctConsonant');
-    } else if (c & 0b01) {
-        cell.classList.add('movedConsonant');
-    } else {
-        cell.classList.add('wrongConsonant');
-    }
-    if (v & 0b10) {
-        cell.classList.add('correctVowel');
-    } else if (v & 0b01) {
-        cell.classList.add('movedVowel');
-    } else {
-        cell.classList.add('wrongVowel');
-    }
-}
 
 for (let vowel of vowels) {
     vowel.addEventListener("click", guessVowel);
