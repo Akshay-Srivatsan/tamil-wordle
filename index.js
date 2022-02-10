@@ -366,7 +366,7 @@ function submitGuess() {
         movednesses.push([consonantMoved, vowelMoved]);
     };
 
-    let correct = !correctnesses.map(([x, y]) => x || y).includes(false);
+    let correct = !correctnesses.map(([x, y]) => x && y).includes(false);
 
     for (let i = 0; i < MAX_LENGTH; i++) {
         window.setTimeout(function() {
