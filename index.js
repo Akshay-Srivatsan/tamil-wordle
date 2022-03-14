@@ -25,7 +25,7 @@ const MAX_LENGTH = 4;
 const MAX_GUESSES = 6;
 const TRANSITION_TIME = 500;
 const RESET_TIME = 100;
-const VERSION = "1";
+const VERSION = "2";
 
 let speed_scale = 1;
 
@@ -82,10 +82,17 @@ function createWordList(list) {
     wordlist = words.filter(x => parseWord(x).length === MAX_LENGTH).map(x => x.normalize());
 }
 
-function getWordForDay(date) {
+function getOffsetForDay(date) {
+    if (date.getTimezoneOffset() != START_DATE.getTimezoneOffset()) {
+        date = new Date(date.getTime() - (date.getTimezoneOffset() - START_DATE.getTimezoneOffset()) * 60 * 1000);
+    }
     let difference = Math.abs(date.getTime() - START_DATE.getTime()) / (1000 * 60 * 60 * 24);
     let days = Math.floor(difference);
-    return wordlist[days % wordlist.length];
+    return days % wordlist.length;
+}
+
+function getWordForDay(date) {
+    return wordlist[getOffsetForDay(date)];
 }
 
 function getRandomWord() {
