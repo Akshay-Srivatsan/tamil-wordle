@@ -32,6 +32,17 @@ let speed_scale = 1;
 const DATE = new Date();
 let target = null;
 
+function getDefinition() {
+    return `
+    <p>
+    Definition of ${getTarget()}:
+    <a href="https://www.shabdkosh.com/dictionary/english-tamil/${getTarget()}">Shabdkosh</a>,
+    <a href="https://ta.wiktionary.org/wiki/${getTarget()}">Wiktionary</a>,
+    <a href="https://agarathi.com/word/${getTarget()}">Agarathi</a>
+    </p>
+    `;
+}
+
 function getDateString() {
     let year = DATE.getFullYear().toString();
     let month = (DATE.getMonth() + 1).toString();
@@ -406,6 +417,9 @@ function submitGuess() {
 
     window.setTimeout(function() {
         submitting = false;
+        if (finished) {
+            document.getElementById("link").innerHTML = getDefinition();
+        }
         if (won) {
             document.getElementById("message").innerHTML = "You won!";
             document.getElementById("message").classList.add('won');
@@ -531,7 +545,6 @@ function replayFromLocalStorage() {
     if (MODE === RANDOM) {
         return;
     }
-    let storage = window.localStorage;
     let key = VERSION + ":" + getDateString();
     let value = localStorage[key];
     if (!value) return;
