@@ -371,12 +371,15 @@ function submitGuess() {
         let consonantMoved = false;
         let vowelMoved = false;
 
-        if (frequencies[gc] > 0) {
+        let consonantCorrect = correctnesses[i][0];
+        let vowelCorrect = correctnesses[i][1];
+
+        if (frequencies[gc] > 0 && !consonantCorrect) {
             frequencies[gc]--;
             consonantMoved = true;
         }
 
-        if (frequencies[gv] > 0) {
+        if (frequencies[gv] > 0 && !vowelCorrect) {
             frequencies[gv]--;
             vowelMoved = true;
         }
