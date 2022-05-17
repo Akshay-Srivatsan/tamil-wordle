@@ -72,7 +72,7 @@ const TAMIL_VOWELS = ["அ", "ஆ", "இ", "ஈ", "உ", "ஊ", "எ", "ஏ", "�
 const [A, AA, I, II, U, UU, E, EE, AI, O, OO, AU] = TAMIL_VOWELS;
 const PULLI = "\u0BCD";
 const TAMIL_DIACRITICS = [PULLI].concat([AA, I, II, U, UU, E, EE, AI, O, OO, AU].map(toDiacritic));
-const VISARGA = "\u0B83";
+const AAYTHAM = "\u0B83";
 
 const START_DATE = new Date(2022, 01, 04, 00, 00, 00); // 2022-02-04
 
@@ -133,6 +133,8 @@ function parseWord(word) {
             let last = letters.pop().charAt(0);
             last += fromDiacritic(c);
             letters.push(last);
+        } else if (c == AAYTHAM) {
+            letters.push(c);
         } else {
             letters.push(c + A);
         }
@@ -164,7 +166,7 @@ function updatePossibilities() {
             canGuessConsonant = true;
             canGuessVowel = false;
         } else {
-            if (last === VISARGA) {
+            if (last === AAYTHAM) {
                 canGuessVowel = false;
             } else {
                 canGuessVowel = true;
@@ -242,7 +244,7 @@ function guessConsonant(e) {
 function processedGuess() {
     return fullGuess().map((letter, i) => {
         if (TAMIL_VOWELS.indexOf(letter) !== -1) return letter;
-        if (letter === VISARGA) return letter;
+        if (letter === AAYTHAM) return letter;
         if (letter.length === 1) return letter + "\u0BCD";
         let consonant = letter.charAt(0);
         let vowel = letter.charAt(1);
@@ -302,20 +304,35 @@ function getFrequencies(word) {
     for (let i = 0; i < MAX_LENGTH; i++) {
         let [x, y] = word[i];
         frequencies[x] = (frequencies[x] || 0) + 1;
+        if (y === undefined) continue;
         frequencies[y] = (frequencies[y] || 0) + 1;
     }
     return frequencies;
 }
 
 function compareCorrectness(t, g) {
-    return t.map((x, i) => x == g[i])
+    if (t.length == 2 && g.length == 2) {
+        return t.map((x, i) => x == g[i])
+    }
+    if (t.length == 1 && g.length == 1) {
+        let x = t[0] == g[0];
+        return [x, x];
+    }
+    if (t.length == 1 && g.length == 2) {
+        return [false, t[0] == g[1]];
+    }
+    if (t.length == 2 && g.length == 1) {
+        return [false, t[1] == g[0]];
+    }
 }
 
 function expandWord(word) {
     return word.map(x => {
         if (x.length === 1) {
             if (TAMIL_VOWELS.includes(x)) {
-                return [x, x];
+                return [x];
+            } else if (x == AAYTHAM) {
+                return [x];
             } else {
                 return [x, PULLI];
             }
@@ -353,6 +370,7 @@ function submitGuess() {
 
     let correctnesses = [];
     let movednesses = [];
+
 
     for (let i = 0; i < guessedWord.length; i++) {
         let t = targetWord[i];
