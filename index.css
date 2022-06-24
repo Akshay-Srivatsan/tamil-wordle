@@ -54,7 +54,7 @@ html.random-mode {
 }
 
 body {
-  font-family: 'Hind', 'Hind Madurai', sans-serif;
+  font-family: 'Hind Madurai', sans-serif;
 }
 
 html {
@@ -229,6 +229,9 @@ html {
 
 h1, p {
   text-align: center;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .hidden {
@@ -237,4 +240,14 @@ h1, p {
 
 .show-in-random-mode {
   font-weight: bold;
+}
+
+hr {
+  max-width: 720px;
+}
+
+footer {
+  margin: 0, auto;
+  display: block;
+  text-align: center;
 }
