@@ -1,0 +1,240 @@
+:root {
+  --background-color: initial;
+  --foreground-color: initial;
+
+  --correct-color: #64DD17;
+  --moved-color: #FFD600;
+  --wrong-color: #424242;
+  --enabled-color: initial;
+  --disabled-color: #ECEFF1;
+
+  --correct-fg-color: black;
+  --moved-fg-color: black;
+  --wrong-fg-color: white;
+  --enabled-fg-color: initial;
+  --disabled-fg-color: black;
+
+  --active-color: #40C4FF;
+  --border-color: darkgrey;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #212121;
+    --foreground-color: #FAFAFA;
+    --link-color: #03A9F4;
+    --link-visited-color: #B39DDB;
+
+    --correct-color: #1B5E20;
+    --moved-color: #F57F17;
+    --wrong-color: #424242;
+    --enabled-color: initial;
+    --disabled-color: #212121;
+
+    --correct-fg-color: white;
+    --moved-fg-color: black;
+    --wrong-fg-color: white;
+    --enabled-fg-color: initial;
+    --disabled-fg-color: grey;
+
+    --active-color: #01579B;
+    --border-color: #9E9E9E;
+  }
+}
+
+html.random-mode {
+  --background-color: #FFF3E0;
+}
+@media (prefers-color-scheme: dark) {
+  html.random-mode {
+    --background-color: #401600;
+    --wrong-color: #212121;
+    --disabled-fg-color: grey;
+  }
+}
+
+body {
+  font-family: 'Hind', 'Hind Madurai', sans-serif;
+}
+
+html {
+  color: var(--foreground-color);
+  background: var(--background-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  a {
+    color: var(--link-color);
+  }
+
+  a:visited {
+    color: var(--link-visited-color);
+  }
+}
+
+#container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#guesses {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+.guess {
+  display: flex;
+  flex-direction: row;
+}
+
+.letter {
+  display: grid;
+  background: var(--background-color);
+  width: 60px;
+  height: 60px;
+  font-size: 14pt;
+  place-items: center;
+  border: 1px solid var(--border-color);
+  margin: 3px;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+  border-radius: 5px;
+}
+
+.letter.wrongVowel {
+  border: 5px solid var(--wrong-color);
+}
+
+.letter.wrongConsonant {
+  background: var(--wrong-color);
+  color: var(--wrong-fg-color);
+}
+
+.letter.movedVowel {
+  border: 5px solid var(--moved-color);
+}
+
+.letter.movedConsonant {
+  background: var(--moved-color);
+  color: var(--moved-fg-color);
+}
+
+.letter.correctVowel {
+  border: 5px solid var(--correct-color);
+}
+
+.letter.correctConsonant {
+  background: var(--correct-color);
+  color: var(--correct-fg-color);
+}
+
+
+#keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#keyboard hr {
+  width: 50%;
+}
+
+#vowels, #consonants, #controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+#vowels div, #consonants div, #controls div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.vowel, .consonant, .control {
+  background: var(--enabled-color);
+  color: var(--enabled-fg-color);
+  border: 1px solid var(--border-color);
+  font-size: 12pt;
+  margin: 3pt;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 3px;
+  transition: 0.1s;
+  box-sizing: border-box;
+  user-select: none;
+  cursor: pointer;
+}
+
+.vowel:active, .consonant:active, .control:active {
+  background: var(--active-color);
+}
+
+.vowel.wrong, .consonant.wrong {
+  border: 2px solid var(--wrong-color);
+  background-color: var(--wrong-color);
+  color: var(--wrong-fg-color);
+}
+
+.vowel.moved, .consonant.moved {
+  border: 2px solid var(--moved-color);
+  background-color: var(--moved-color);
+  color: var(--moved-fg-color);
+}
+
+.vowel.correct, .consonant.correct {
+  border: 2px solid var(--correct-color);
+  background-color: var(--correct-color);
+  color: var(--correct-fg-color);
+}
+
+.vowel.disabled, .consonant.disabled, .control.disabled {
+  background-color: var(--disabled-color);
+  color: var(--disabled-fg-color);
+}
+
+#message {
+  width: 100%;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+#message.won {
+  font-size: 16pt;
+}
+
+#link {
+  text-align: center;
+}
+
+#copyresults {
+  display: none;
+  margin: 0 auto;
+}
+
+#copyresults.won {
+  display: block;
+}
+
+h1, p {
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.show-in-random-mode {
+  font-weight: bold;
+}
