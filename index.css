@@ -2,11 +2,11 @@
   --background-color: initial;
   --foreground-color: initial;
 
-  --correct-color: #64DD17;
-  --moved-color: #FFD600;
+  --correct-color: #64dd17;
+  --moved-color: #ffd600;
   --wrong-color: #424242;
   --enabled-color: initial;
-  --disabled-color: #ECEFF1;
+  --disabled-color: #eceff1;
 
   --correct-fg-color: black;
   --moved-fg-color: black;
@@ -14,19 +14,19 @@
   --enabled-fg-color: initial;
   --disabled-fg-color: black;
 
-  --active-color: #40C4FF;
+  --active-color: #40c4ff;
   --border-color: darkgrey;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background-color: #212121;
-    --foreground-color: #FAFAFA;
-    --link-color: #03A9F4;
-    --link-visited-color: #B39DDB;
+    --foreground-color: #fafafa;
+    --link-color: #03a9f4;
+    --link-visited-color: #b39ddb;
 
-    --correct-color: #1B5E20;
-    --moved-color: #F57F17;
+    --correct-color: #1b5e20;
+    --moved-color: #f57f17;
     --wrong-color: #424242;
     --enabled-color: initial;
     --disabled-color: #212121;
@@ -37,13 +37,13 @@
     --enabled-fg-color: initial;
     --disabled-fg-color: grey;
 
-    --active-color: #01579B;
-    --border-color: #9E9E9E;
+    --active-color: #01579b;
+    --border-color: #9e9e9e;
   }
 }
 
 html.random-mode {
-  --background-color: #FFF3E0;
+  --background-color: #fff3e0;
 }
 @media (prefers-color-scheme: dark) {
   html.random-mode {
@@ -54,7 +54,7 @@ html.random-mode {
 }
 
 body {
-  font-family: 'Hind Madurai', sans-serif;
+  font-family: "Hind Madurai", sans-serif;
 }
 
 html {
@@ -132,7 +132,6 @@ html {
   color: var(--correct-fg-color);
 }
 
-
 #keyboard {
   display: flex;
   flex-direction: column;
@@ -144,7 +143,9 @@ html {
   width: 50%;
 }
 
-#vowels, #consonants, #controls {
+#vowels,
+#consonants,
+#controls {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -152,7 +153,9 @@ html {
   pointer-events: none;
 }
 
-#vowels div, #consonants div, #controls div {
+#vowels div,
+#consonants div,
+#controls div {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -160,7 +163,9 @@ html {
   pointer-events: auto;
 }
 
-.vowel, .consonant, .control {
+.vowel,
+.consonant,
+.control {
   background: var(--enabled-color);
   color: var(--enabled-fg-color);
   border: 1px solid var(--border-color);
@@ -177,36 +182,42 @@ html {
   cursor: pointer;
 }
 
-.vowel:active, .consonant:active, .control:active {
+.vowel:active,
+.consonant:active,
+.control:active {
   background: var(--active-color);
 }
 
-.vowel.wrong, .consonant.wrong {
+.vowel.wrong,
+.consonant.wrong {
   border: 2px solid var(--wrong-color);
   background-color: var(--wrong-color);
   color: var(--wrong-fg-color);
 }
 
-.vowel.moved, .consonant.moved {
+.vowel.moved,
+.consonant.moved {
   border: 2px solid var(--moved-color);
   background-color: var(--moved-color);
   color: var(--moved-fg-color);
 }
 
-.vowel.correct, .consonant.correct {
+.vowel.correct,
+.consonant.correct {
   border: 2px solid var(--correct-color);
   background-color: var(--correct-color);
   color: var(--correct-fg-color);
 }
 
-.vowel.disabled, .consonant.disabled, .control.disabled {
+.vowel.disabled,
+.consonant.disabled,
+.control.disabled {
   background-color: var(--disabled-color);
   color: var(--disabled-fg-color);
 }
 
 #message {
   width: 100%;
-  font-family: sans-serif;
   text-align: center;
 }
 
@@ -227,7 +238,8 @@ html {
   display: block;
 }
 
-h1, p {
+h1,
+p {
   text-align: center;
   max-width: 720px;
   margin-left: auto;
